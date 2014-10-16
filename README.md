@@ -7,7 +7,7 @@ Script cài đăt OpenStack Juno AIO trên Ubuntu 14.04
 | Họ và Tên        | Nick Skype | Email, FB | 
 |------------------|------------|-------|
 |Lương Hữu Tuấn     | tuantuluong | https://www.facebook.com/luong.tuan |
-|Lê Quang Hiếu   | hieulq89 | hieulq89@gmail.com |
+|Lê Quang Hiếu   | hieulq89 | hieulq19@gmail.com |
 | VietStacker      | vietstack  | vietstack@gmail.com
 
 #### Thông tin phiên bản
