@@ -2,14 +2,11 @@
 
 source config.cfg
 
-#Bat dau thuc thi
+#Start installing mysql
 echo mysql-server mysql-server/root_password password $MYSQL_ADMIN_PASS | debconf-set-selections
 echo mysql-server mysql-server/root_password_again password $MYSQL_ADMIN_PASS | debconf-set-selections
 
-# Da update tu file 0-icehouse-aio-prepare.sh
-# apt-get update
-
-echo "########## Cai dat MYSQL ##########"
+echo "########## INSTALLING MYSQL ##########"
 sleep 3 
 # apt-get -y install mysql-server python-mysqldb curl expect 
 apt-get -y install mariadb-server python-mysqldb curl expect 
@@ -45,7 +42,7 @@ expect eof
 echo "$SECURE_MYSQL"
 apt-get remove --purge -y expect
 
-echo "########## Cau hinh cho MYSQL ##########"
+echo "########## CONFIGURING FOR MYSQL ##########"
 sleep 5
 sed -i 's/127.0.0.1/0.0.0.0/g' /etc/mysql/my.cnf
 #
@@ -56,7 +53,7 @@ character-set-server = utf8" /etc/mysql/my.cnf
 #
 service mysql restart
 
-echo "########## Tao DATABASE ##########"
+echo "########## CREATE ALL JUNO DATABASE ##########"
 sleep 5 
 
 cat << EOF | mysql -uroot -p$MYSQL_PASS
@@ -96,4 +93,4 @@ EOF
 #
 exit;
 
-echo "########## Hoan thanh viec ta DB ##########"
+echo "########## MYSQL DB SETUP COMPLETE ##########"
