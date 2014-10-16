@@ -54,14 +54,14 @@ keystone user-role-add --tenant-id $SERVICE_TENANT --user-id $NEUTRON_USER --rol
 CINDER_USER=$(get_id keystone user-create --name=cinder --pass="$SERVICE_PASSWORD" --tenant-id $SERVICE_TENANT --email=cinder@vietstack.com.com)
 keystone user-role-add --tenant-id $SERVICE_TENANT --user-id $CINDER_USER --role-id $ADMIN_ROLE
 
-echo "########## Bat dau tao ENDPOINT cho cac dich vu ########## "
+echo "########## START CREATING ENDPOINT SERVICE ########## "
 sleep 5 
 
 #API Endpoint
 
-echo "########## Tao service KEYSTONE ##########"
+echo "########## CREATE KEYSTONE SERVICE ##########"
 keystone service-create --name=keystone --type=identity --description="OpenStack Identity"
-echo "########## Tao endpoint KEYSTONE ##########"
+echo "########## CREATE KEYSTONE ENDPOINT ##########"
 keystone endpoint-create \
 --region regionOne \
 --service-id=$(keystone service-list | awk '/ identity / {print $2}') \
