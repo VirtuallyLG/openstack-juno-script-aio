@@ -4,7 +4,8 @@ source config.cfg
 
 echo "##### Cai dat & cau hinh keystone ##### "
 sleep 3
-apt-get install keystone -y
+
+apt-get install keystone python-keystoneclient
 
 #/* Sao luu truoc khi sua file nova.conf
 filekeystone=/etc/keystone/keystone.conf
