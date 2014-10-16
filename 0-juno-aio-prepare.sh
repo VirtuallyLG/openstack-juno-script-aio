@@ -2,7 +2,7 @@
 
 source config.cfg
 
-echo "########## CAU HINH IP STATIC CHO NICs ##########"
+echo "########## CONFIGURING STATIC IP FOR NICs ##########"
 
 ifaces=/etc/network/interfaces
 test -f $ifaces.orig || cp $ifaces $ifaces.orig
@@ -32,7 +32,7 @@ EOF
 
 /etc/init.d/networking restart 
 
-echo "########## Repos of JUNO ##########"
+echo "########## ADDING JUNO's REPO ##########"
 
 
 apt-get install python-software-properties -y
@@ -44,12 +44,12 @@ iphost=/etc/hosts
 test -f $iphost.orig || cp $iphost $iphost.orig
 rm $iphost
 
-echo "########## SETUP HOTSNAME, IP ADDRESS for UBUNUT ##########"
+echo "########## SETUP HOTSNAME, IP ADDRESS for UBUNTU ##########"
 
 hostname controller
 echo "controller" > /etc/hostname
 
-# Mo hinh AIO nen su dung loopback
+# AIO model should use loopback IP
 cat << EOF >> $iphost
 127.0.0.1       localhost
 127.0.1.1       controller
@@ -64,7 +64,7 @@ $eth1_address	controller
 # ff02::2 ip6-allrouters
 EOF
 
-# Sua file host ko can restart network
+# Editing hosts file does not require network restart
 # /etc/init.d/networking restart 
 
 # Enable IP forwarding
@@ -77,13 +77,13 @@ echo "########## INSTALL & CONFIG NTP ##########"
 sleep 3
 apt-get install -y ntp
 
-# Cau hinh NTP trong ICEHOUSE
+# Config NTP in Ice House
 # sed -i 's/server ntp.ubuntu.com/ \
 # server ntp.ubuntu.com \
 # server 127.127.1.0 \
 # fudge 127.127.1.0 stratum 10/g' /etc/ntp.conf
 
-## Cau hinh NTP trong JUNO
+## Config NTP in JUNO
 sed -i 's/server ntp.ubuntu.com/ \
 server 0.vn.pool.ntp.org iburst \
 server 1.asia.pool.ntp.org iburst \
@@ -97,19 +97,19 @@ restrict -4 default kod notrap nomodify \
 restrict -6 default kod notrap nomodify/g' /etc/ntp.conf
 
 
-echo "########## Restart service NTP ##########"
+echo "########## RESTARTING NTP SERVICE ##########"
 sleep 3
 service ntp restart
 
 
-echo "########## Installing service RABBITMQ ##########"
+echo "########## INSTALLING RABBITMQ SERVICE ##########"
 sleep 3
 apt-get -y install rabbitmq-server
 
-echo "########## Set password for RABBITMQ ##########"
+echo "########## SETTING UP PASSWORD FOR RABBITMQ ##########"
 # sleep 3
 rabbitmqctl change_password guest $RABBIT_PASS
-echo "########## Reboot server, bye bye ##########"
+echo "########## NOW REBOOTING SERVER, BYE BYE ##########"
 sleep 3
 service rabbitmq-server restart
 sleep 3
