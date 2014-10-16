@@ -2,16 +2,16 @@
 
 source config.cfg
 
-echo "##### Cai dat & cau hinh keystone ##### "
+echo "##### START INSTALLING KEYSTONE ##### "
 sleep 3
 
 apt-get install keystone python-keystoneclient
 
-#/* Sao luu truoc khi sua file nova.conf
+#/* Back up before editing nova.conf
 filekeystone=/etc/keystone/keystone.conf
 test -f $filekeystone.orig || cp $filekeystone $filekeystone.orig
 
-echo " ##### Chen noi dung file /etc/keystone/keystone.conf ##### "
+echo " ##### EDITING CONFIG FILE /etc/keystone/keystone.conf ##### "
 sleep 3
 cat << EOF > $filekeystone
 [DEFAULT]
@@ -54,15 +54,15 @@ Distribution = Ubuntu
 
 EOF
 
-echo " ##### Dong bo cac bang trong DB ##### "
+echo " ##### SETUP KEYSTONE DB ##### "
 sleep 3
 keystone-manage db_sync
 
-echo "##### Xoa DB mac dinh ##### "
+echo "##### DELETE KEYSTONE DEFAULT DB ##### "
 sleep 3
 rm  /var/lib/keystone/keystone.db
 
-echo "##### Khoi dong lai Keystone ##### "
+echo "##### RESTARTING KEYSTONE ##### "
 service keystone restart
 sleep 3
 service keystone restart
@@ -73,9 +73,9 @@ echo '@hourly /usr/bin/keystone-manage token_flush >/var/log/keystone/keystone-t
 export OS_SERVICE_TOKEN=$TOKEN_PASS
 export OS_SERVICE_ENDPOINT=http://$MASTER:35357/v2.0
 
-# echo "##### Kiem tra keystone sau khi khai bao bien moi truong ##### "
+# echo "##### VALIDATE KEYSTONE SETUP ##### "
 # keystone user-list
 # sleep 3
 
-echo "##### HOAN THANH VIEC CAI KEYSTONE #####"
+echo "##### COMPLETE KEYSTONE INSTALLING & CONFIGURING #####"
 
