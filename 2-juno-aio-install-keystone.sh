@@ -5,7 +5,7 @@ source config.cfg
 echo "##### START INSTALLING KEYSTONE ##### "
 sleep 3
 
-apt-get install keystone python-keystoneclient
+apt-get install keystone python-keystoneclient -y
 
 #/* Back up before editing nova.conf
 filekeystone=/etc/keystone/keystone.conf
