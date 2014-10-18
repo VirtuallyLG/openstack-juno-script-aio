@@ -40,8 +40,8 @@ echo "########## ADDING JUNO's REPO ##########"
 # apt-get install python-software-properties -y
 # add-apt-repository cloud-archive:juno -y 
 
-sudo apt-get install python-software-propertie -y
-sudo add-apt-repository ppa:ubuntu-cloud-archive/juno-staging -y
+apt-get install python-software-properties -y
+add-apt-repository ppa:ubuntu-cloud-archive/juno-staging -y
 
 sudo apt-get update && sudo apt-get -y upgrade && sudo apt-get -y dist-upgrade 
 
