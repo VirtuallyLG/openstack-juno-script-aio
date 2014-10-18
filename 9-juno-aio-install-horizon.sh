@@ -51,4 +51,3 @@ echo "URL: http://$MASTER/horizon"
 echo "User: admin hoac demo"
 echo "Password:" $ADMIN_PASS
 
-9-icehouse-aio-install-horizon.sh
