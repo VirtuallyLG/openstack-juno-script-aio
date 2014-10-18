@@ -15,47 +15,41 @@ rm $controlneutron
 cat << EOF > $controlneutron
 [DEFAULT]
 verbose = True
-state_path = /var/lib/neutron
 lock_path = \$state_path/lock
 core_plugin = ml2
 service_plugins = router
 auth_strategy = keystone
-allow_overlapping_ips = True
-rpc_backend = neutron.openstack.common.rpc.impl_kombu
-
-rabbit_host = $MASTER
-rabbit_password = $RABBIT_PASS
-rabbit_userid = guest
-
-notification_driver = neutron.openstack.common.notifier.rpc_notifier
 notify_nova_on_port_status_changes = True
 notify_nova_on_port_data_changes = True
 nova_url = http://$MASTER:8774/v2
-nova_admin_auth_url = http://$MASTER:35357/v2.0
 nova_region_name = regionOne
 nova_admin_username = nova
-nova_admin_tenant_id = $SERVICE_ID
+nova_admin_tenant_id = 43a4e75c335e4ff992630ad37d566b52
 nova_admin_password = $ADMIN_PASS
+nova_admin_auth_url = http://$MASTER:35357/v2.0
+rabbit_host=$MASTER
+rabbit_password=$ADMIN_PASS
+rpc_backend=rabbit
+rabbit_userid = guest
 
+[matchmaker_redis]
+
+[matchmaker_ring]
 [quotas]
 
 [agent]
 root_helper = sudo /usr/bin/neutron-rootwrap /etc/neutron/rootwrap.conf
 
 [keystone_authtoken]
-# auth_host = 127.0.0.1
-# auth_port = 35357
-# auth_protocol = http
-
 auth_uri = http://$MASTER:5000/v2.0
 identity_uri = http://$MASTER:35357
 admin_tenant_name = service
 admin_user = neutron
 admin_password = $ADMIN_PASS
-signing_dir = \$state_path/keystone-signing
 
 [database]
-connection = mysql://neutron:$MYSQL_PASS@$MASTER/neutron
+connection = mysql://neutron:$ADMIN_PASS@$MASTER/neutron
+
 [service_providers]
 service_provider=LOADBALANCER:Haproxy:neutron.services.loadbalancer.drivers.haproxy.plugin_driver.HaproxyOnHostPluginDriver:default
 service_provider=VPN:openswan:neutron.services.vpn.service_drivers.ipsec.IPsecVPNDriver:default
@@ -88,6 +82,7 @@ tunnel_id_ranges = 1:1000
 
 [securitygroup]
 enable_security_group = True
+enable_ipset = True
 firewall_driver = neutron.agent.linux.iptables_firewall.OVSHybridIptablesFirewallDriver
 
 [ovs]
@@ -153,6 +148,9 @@ EOF
 
 chown root:neutron /etc/neutron/*
 chown root:neutron $controlML2
+
+su -s /bin/sh -c "neutron-db-manage --config-file /etc/neutron/neutron.conf \
+--config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade juno" neutron
 
 echo "########## KHOI DONG LAI NEUTRON        ##########"
 sleep 5
