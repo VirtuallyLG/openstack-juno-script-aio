@@ -19,7 +19,7 @@ Script cài đăt OpenStack Juno AIO trên Ubuntu 14.04
 
 
 
-# Hướng dẫn thực thi các script cài đặt OpenStack Juno trên Ubuntu 14.04
+# Hướng dẫn thực thi các script cài đặt OpenStack Juno trên Ubuntu 14.04.
 
 https://github.com/vietstacker/openstack-juno-script-aio/blob/master/hd-caidat-openstac-juno-bang-script.md
 
