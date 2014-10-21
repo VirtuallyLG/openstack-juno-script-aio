@@ -1,7 +1,6 @@
 Script cài đăt OpenStack Juno AIO trên Ubuntu 14.04
 
-
-safasasf
+Openstack Juno Installation Script on Ubuntu 14.04
 =========================
 
 # Cài đặt & HDSD OpenStack Icehouse AIO
