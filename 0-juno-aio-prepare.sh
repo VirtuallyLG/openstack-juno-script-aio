@@ -40,8 +40,15 @@ echo "########## ADDING JUNO's REPO ##########"
 # apt-get install python-software-properties -y
 # add-apt-repository cloud-archive:juno -y 
 
-apt-get install python-software-properties -y
-add-apt-repository ppa:ubuntu-cloud-archive/juno-staging -y
+apt-get install python-software-properties
+echo deb http://ubuntu-cloud.archive.canonical.com/ubuntu trusty-updates/juno main >> /etc/apt/sources.list.d/ubuntu-cloud-archive-juno-trusty.list
+apt-get install ubuntu-cloud-keyring
+ 
+# apt-get install python-software-properties -y
+# add-apt-repository cloud-archive:juno -y 
+
+# apt-get install python-software-properties -y
+# add-apt-repository ppa:ubuntu-cloud-archive/juno-staging -y
 
 sudo apt-get update && sudo apt-get -y upgrade && sudo apt-get -y dist-upgrade 
 
