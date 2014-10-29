@@ -2,16 +2,16 @@
 
 source config.cfg
 
-echo "########## Cai dat va cau hinh OpenvSwitch ##########"
+echo "########## INSTALLING AND CONFIGURING Open-vSwitch ##########"
 apt-get install -y openvswitch-controller openvswitch-switch openvswitch-datapath-dkms
 
-echo "########## Cau hinh br-int va br-ex cho OpenvSwitch ##########"
+echo "########## CONFIGURING br-int AND br-ex FOR OpenvSwitch ##########"
 sleep 5
 ovs-vsctl add-br br-int
 ovs-vsctl add-br br-ex
 ovs-vsctl add-port br-ex eth0
 
-echo "########## Cau hinh dia chi IP cho br-ex ##########"
+echo "########## CONFIGURING IP FOR br-ex ##########"
 
 ifaces=/etc/network/interfaces
 test -f $ifaces.orig1 || cp $ifaces $ifaces.orig1
@@ -47,5 +47,5 @@ netmask 255.255.255.0
 #netmask 255.255.255.0
 EOF
 
-echo "##########  Khoi dong lai may sau khi cau hinh IP Address ##########"
+echo "##########  RESTARTING AFTER CONFIGURING IP ADDRESS ##########"
 init 6
