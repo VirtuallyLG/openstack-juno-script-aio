@@ -2,16 +2,16 @@
 
 source config.cfg
 
-echo "########## CAI DAT GLANCE ##########"
+echo "########## INSTALLING GLANCE ##########"
 apt-get install glance python-glanceclient -y
-echo "########## CAU HINH GLANCE API ##########"
+echo "########## CONFIGURING GLANCE API ##########"
 sleep 5 
-#/* Sao luu truoc khi sua file nova.conf
+#/* Backup nova.conf
 fileglanceapicontrol=/etc/glance/glance-api.conf
 test -f $fileglanceapicontrol.orig || cp $fileglanceapicontrol $fileglanceapicontrol.orig
 rm $fileglanceapicontrol
 
-#Chen noi dung file /etc/glance/glance-api.conf
+#Editting file /etc/glance/glance-api.conf
 
 cat << EOF > $fileglanceapicontrol
 [DEFAULT]
@@ -95,7 +95,7 @@ EOF
 chown glance:glance $fileglanceapicontrol
 #
 sleep 5
-echo "########## CAU HINH GLANCE REGISTER ##########"
+echo "########## CONFIGURING GLANCE REGISTER ##########"
 #/* Sao luu truoc khi sua file nova.conf
 fileglanceregcontrol=/etc/glance/glance-registry.conf
 test -f $fileglanceregcontrol.orig || cp $fileglanceregcontrol $fileglanceregcontrol.orig
@@ -133,15 +133,15 @@ EOF
 chown glance:glance $fileglanceregcontrol
 
 sleep 5
-echo "########## Xoa file glance.sqlite ##########"
+echo "########## REMOVING glance.sqlite ##########"
 # rm /var/lib/glance/glance.sqlite
 
 sleep 5
-echo "########## Dong bo DB cho GLANCE ##########"
+echo "########## SYNCING GLANCE DB ##########"
 glance-manage db_sync
 
 sleep 5
-echo "########## Khoi dong lai GLANCE ##########"
+echo "########## RESTARTING GLANCE SERVICE ##########"
 service glance-registry restart
 service glance-api restart
 service glance-registry restart
@@ -149,7 +149,7 @@ service glance-api restart
 
 #
 sleep 7
-echo "########## Dua image vao Glance ##########"
+echo "########## IMPORT CIRROS IMAGE TO GLANCE ##########"
 mkdir images
 cd images/
 wget http://cdn.download.cirros-cloud.net/0.3.2/cirros-0.3.2-x86_64-disk.img
@@ -158,7 +158,7 @@ glance image-create --name "cirros-0.3.2-x86_64" --disk-format qcow2 \
 cd /root/
 
 sleep 4
-echo "########## Kiem tra lai image vua them vao GLANCE ##########"
+echo "########## TESTING GLANCE SETUP ##########"
 glance image-list
 
-echo "########## Ket thuc qua trinh cai dat GLANCE ##########"
+echo "########## FINISHED GLANCE SETUP ##########"
