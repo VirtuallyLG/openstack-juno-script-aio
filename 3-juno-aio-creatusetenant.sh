@@ -59,9 +59,9 @@ sleep 5
 
 #API Endpoint
 
-echo "########## CREATE KEYSTONE SERVICE ##########"
+echo "########## CREATING KEYSTONE SERVICE ##########"
 keystone service-create --name=keystone --type=identity --description="OpenStack Identity"
-echo "########## CREATE KEYSTONE ENDPOINT ##########"
+echo "########## CREATING KEYSTONE ENDPOINT ##########"
 keystone endpoint-create \
 --region regionOne \
 --service-id=$(keystone service-list | awk '/ identity / {print $2}') \
@@ -69,9 +69,9 @@ keystone endpoint-create \
 --internalurl=http://$MASTER:5000/v2.0 \
 --adminurl=http://$MASTER:35357/v2.0
 
-echo "########## Tao service GLANCE ##########"
+echo "########## CREATING GLANCE SERVICE ##########"
 keystone service-create --name=glance --type=image --description="OpenStack Image Service"
-echo "########## Tao endpoint GLANCE ##########"
+echo "########## CREATING GLANCE ENDPOINT ##########"
 keystone endpoint-create \
 --region regionOne \
 --service-id=$(keystone service-list | awk '/ image / {print $2}') \
@@ -79,9 +79,9 @@ keystone endpoint-create \
 --internalurl=http://$MASTER:9292/v2 \
 --adminurl=http://$MASTER:9292/v2
 
-echo "########## Tao service NOVA ##########"
+echo "########## CREATING NOVA SERVICE ##########"
 keystone service-create --name=nova --type=compute --description="OpenStack Compute"
-echo "########## Tao endpoint NOVA ##########"
+echo "########## CREATING NOVA ENDPOINT ##########"
 keystone endpoint-create \
 --region regionOne \
 --service-id=$(keystone service-list | awk '/ compute / {print $2}') \
@@ -89,18 +89,18 @@ keystone endpoint-create \
 --internalurl=http://$MASTER:8774/v2/%\(tenant_id\)s \
 --adminurl=http://$MASTER:8774/v2/%\(tenant_id\)s
 
-echo "########## Tao service NEUTRON ##########"
+echo "########## CREATING NEUTRON SERVICE ##########"
 keystone service-create --name neutron --type network --description "OpenStack Networking"
-echo "########## Tao endpoint NEUTRON ##########"
+echo "########## CREATING NEUTRON ENDPOINT ##########"
 keystone endpoint-create \
 --region regionOne \
 --service-id $(keystone service-list | awk '/ network / {print $2}') --publicurl http://$MASTER:9696 \
 --adminurl http://$MASTER:9696 \
 --internalurl http://$MASTER:9696
 
-echo "########## Tao service CINDER Version 1 ##########"
+echo "########## CREATING CINDER V1 SERVICE ##########"
 keystone service-create --name=cinder --type=volume --description="OpenStack Block Storage"
-echo "########## Tao endpoint CINDER Version 1 ##########"
+echo "########## CREATING CINDER V1 ENDPOINT ##########"
 keystone endpoint-create \
 --region regionOne \
 --service-id=$(keystone service-list | awk '/ volume / {print $2}') \
@@ -108,9 +108,9 @@ keystone endpoint-create \
 --internalurl=http://$MASTER:8776/v1/%\(tenant_id\)s \
 --adminurl=http://$MASTER:8776/v1/%\(tenant_id\)s
 
-echo "########## Tao service CINDER Version 2 ##########"
+echo "########## CREATING CINDER V2 SERVICE ##########"
 keystone service-create --name=cinderv2 --type=volumev2 --description="OpenStack Block Storage v2"
-echo "########## Tao endpoint CINDER Version 2 ##########"
+echo "########## CREATING CINDER V2 ENDPOINT ##########"
 keystone endpoint-create \
 --region regionOne \
 --service-id=$(keystone service-list | awk '/ volumev2 / {print $2}') \
@@ -119,18 +119,18 @@ keystone endpoint-create \
 --adminurl=http://$MASTER:8776/v2/%\(tenant_id\)s
 
 sleep 5
-echo "########## TAO FILE CHO BIEN MOI TRUONG ##########"
+echo "########## CREATING ENVIRONMENT FILE ##########"
 echo "export OS_USERNAME=admin" > admin-openrc.sh
 echo "export OS_PASSWORD=OpenStack123" >> admin-openrc.sh
 echo "export OS_TENANT_NAME=admin" >> admin-openrc.sh
 echo "export OS_AUTH_URL=http://$MASTER:35357/v2.0" >> admin-openrc.sh
 
-echo "########## Unset environment ##########"
+echo "########## UNSET ENVIRONMENT ##########"
 unset OS_SERVICE_TOKEN OS_SERVICE_ENDPOINT
 chmod +x admin-openrc.sh
 
 sleep 5
-echo "########## RUN environment ##########"
+echo "########## RUN ENVIRONMENT ##########"
 source admin-openrc.sh
 cat  admin-openrc.sh >> /etc/profile
 cp  admin-openrc.sh /root/admin-openrc.sh
@@ -140,7 +140,7 @@ cp  admin-openrc.sh /root/admin-openrc.sh
 # export OS_TENANT_NAME=admin
 # export OS_AUTH_URL=http://$MASTER:35357/v2.0
 
-echo "########## Hoan thanh cai dat keystone ##########"
+echo "########## KEYSTONE SETUP FINISHED ! ##########"
 
 #echo "#################### Kiem tra bien moi truong ##################"
 # sleep 5
