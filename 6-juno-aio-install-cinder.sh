@@ -1,18 +1,18 @@
 #!/bin/bash -ex
 source config.cfg
 
-echo "########## Tao Physical Volume va Volume Group (tren disk sdb ) ##########"
+echo "########## CREATING PHYSICAL VOLUME AND VOLUME GROUP (IN /dev/sdb) ##########"
 fdisk -l
 pvcreate /dev/sdb
 vgcreate cinder-volumes /dev/sdb
 
 #
-echo "########## Cai dat cac goi cho CINDER ##########"
+echo "########## INSTALLING CINDER PACKAGES ##########"
 sleep 3
 apt-get install -y cinder-api cinder-scheduler cinder-volume iscsitarget open-iscsi iscsitarget-dkms python-cinderclient
 
 
-echo "########## Cau hinh file cho cinder.conf ##########"
+echo "########## CONFIGURING FOR CINDER ##########"
 
 filecinder=/etc/cinder/cinder.conf
 test -f $filecinder.orig || cp $filecinder $filecinder.orig
@@ -52,15 +52,15 @@ EOF
 # Phan quyen cho file cinder
 chown cinder:cinder $filecinder
 
-echo "########## Dong bo cho cinder ##########"
+echo "########## SYNCING FOR CINDER ##########"
 sleep 3
 cinder-manage db sync
 
-echo "########## Khoi dong lai CINDER ##########"
+echo "########## RESTART CINDER ##########"
 sleep 3
 service cinder-api restart
 service cinder-scheduler restart
 service cinder-volume restart
 
-echo "########## Hoan thanh viec cai dat CINDER ##########"
+echo "########## FINISHED SETUP CINDER ##########"
 
