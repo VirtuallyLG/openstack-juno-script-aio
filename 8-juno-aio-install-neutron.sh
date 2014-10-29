@@ -1,12 +1,12 @@
 #!/bin/bash -ex
 source config-after-neutron.cfg
 
-echo "########## CAI DAT NEUTRON TREN CONTROLLER ##########"
+echo "########## SETTING UP NEUTRON CONTROLLER ##########"
 apt-get -y install neutron-server neutron-plugin-ml2 neutron-plugin-openvswitch-agent \
 neutron-l3-agent neutron-dhcp-agent
 
-######## SAO LUU CAU HINH NEUTRON.CONF CHO CONTROLLER##################"
-echo "########## Sua lai file neutron.conf ##########"
+######## BACK UP NEUTRON.CONF IN CONTROLLER##################"
+echo "########## MODIFYING neutron.conf ##########"
 
 #
 controlneutron=/etc/neutron/neutron.conf
@@ -56,8 +56,8 @@ service_provider=VPN:openswan:neutron.services.vpn.service_drivers.ipsec.IPsecVP
 
 EOF
 
-######## SAO LUU CAU HINH ML2 CHO CONTROLLER##################"
-echo "########## Sau file cau hinh cho ml2_conf.ini ##########"
+######## BACK-UP ML2 CONFIG IN CONTROLLER##################"
+echo "########## MODIFYING ml2_conf.ini ##########"
 sleep 7
 
 controlML2=/etc/neutron/plugins/ml2/ml2_conf.ini
@@ -93,8 +93,8 @@ bridge_mappings = external:br-ex
 
 EOF
 
-###################### SAO LUU CAU HINH L3 ###########################"
-echo "########## Sua file cau hinh l3_agent.ini ##########"
+###################### BACK-UP L3 CONFIG ###########################"
+echo "########## MODIFYING l3_agent.ini ##########"
 sleep 7
 
 
@@ -110,8 +110,8 @@ use_namespaces = True
 
 EOF
 
-######## SUA FILE CAU HINH  DHCP ##################"
-echo "########## Sua file cau hinh DHCP ##########"
+######## MODIFYING DHCP CONFIG ##################"
+echo "########## MODIFYING DHCP CONFIG ##########"
 sleep 7
 
 dhcpfile=/etc/neutron/dhcp_agent.ini 
@@ -126,8 +126,8 @@ use_namespaces = True
 
 EOF
 
-######## SAO LUU CAU HINH METADATA CHO CONTROLLER##################"
-echo "########## Sua file cau hinh metadata_agent.ini ##########"
+######## BACK-UP METADATA CONFIG IN CONTROLLER##################"
+echo "########## MODIFYING metadata_agent.ini ##########"
 sleep 7
 
 metadatafile=/etc/neutron/metadata_agent.ini
@@ -152,7 +152,7 @@ chown root:neutron $controlML2
 su -s /bin/sh -c "neutron-db-manage --config-file /etc/neutron/neutron.conf \
 --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade juno" neutron
 
-echo "########## KHOI DONG LAI NEUTRON        ##########"
+echo "########## RESTARTING NEUTRON SERVICE ##########"
 sleep 5
 # for i in $( ls /etc/init.d/neutron-* ); do service `basename $i` restart; done
 service neutron-server restart
@@ -163,7 +163,7 @@ service openvswitch-switch restart
 service neutron-plugin-openvswitch-agent restart
 
 
-echo "########## KHOI DONG LAI NEUTRON (lan2) ##########"
+echo "########## RESTARTING NEUTRON (lan2) ##########"
 sleep 5
 # for i in $( ls /etc/init.d/neutron-* ); do service `basename $i` restart; done
 service neutron-server restart
@@ -173,7 +173,7 @@ service neutron-metadata-agent restart
 service openvswitch-switch restart
 service neutron-plugin-openvswitch-agent restart
 
-# Them lenh khoi dong dich vu cua NEUTRON moi khi reboot OpenStack de fix loi.
+# ADDING RESTARTING NEUTRON SERVICE COMMAND EACH TIME RESET OPENSTACK
 sed -i "s/exit 0/# exit 0/g" /etc/rc.local
 echo "service neutron-server restart"
 echo "service neutron-l3-agent restart"
@@ -184,7 +184,7 @@ echo "service neutron-plugin-openvswitch-agent restart"
 echo "exit 0" >> /etc/rc.local
 
 
-echo "########## KIEM TRA NEUTRON (cho 60s)   ##########"
-# Can doi neutron khoi dong xong de kiem tra
+echo "########## TESTING NEUTRON (WAIT 60s)   ##########"
+# WAITING FOR NEUTRON BOOT-UP
 sleep 60
 neutron agent-list
