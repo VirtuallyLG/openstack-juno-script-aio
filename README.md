@@ -8,6 +8,8 @@ Openstack Juno Installation Script on Ubuntu 14.04
 |------------------|------------|-------|
 |Lương Hữu Tuấn     | tuantuluong | tuantuluong@gmail.com |
 |Lê Quang Hiếu   | hieulq89 | hieulq19@gmail.com |
+|Tô Thành Công   | tu0ng_c0ng | tcvn1985@gmail.com |
+|Hoàng Đình Quân   | hdquan2014 | d0m0reg00dthing@gmail.com |
 | VietStacker      | vietstack  | vietstack@gmail.com
 
 #### History
