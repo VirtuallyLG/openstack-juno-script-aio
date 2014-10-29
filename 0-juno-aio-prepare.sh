@@ -8,7 +8,7 @@ ifaces=/etc/network/interfaces
 test -f $ifaces.orig || cp $ifaces $ifaces.orig
 rm $ifaces
 cat << EOF > $ifaces
-#Dat IP cho Controller node
+#Configuring IP for Controller node
 
 # LOOPBACK NET 
 auto lo
