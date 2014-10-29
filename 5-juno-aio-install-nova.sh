@@ -1,12 +1,12 @@
 #!/bin/bash -ex
 source config.cfg
 
-echo "########## CAI DAT NOVA TREN CONTROLLER ################"
+echo "########## INSTALLING NOVA IN CONTROLLER NODE ################"
 apt-get install -y nova-api nova-cert nova-conductor nova-consoleauth \
 nova-novncproxy nova-scheduler python-novaclient \
 nova-compute-kvm python-guestfs 
 
-echo "########## SAO LUU CAU HINH cho NOVA ##################"
+echo "########## BACKUP NOVA CONFIGURATION ##################"
 controlnova=/etc/nova/nova.conf
 test -f $controlnova.orig || cp $controlnova $controlnova.orig
 rm $controlnova
@@ -97,17 +97,17 @@ admin_password = $ADMIN_PASS
 EOF
 chown nova:nova $controlnova
 
-echo "########## XOA FILE DB MAC DINH ##########"
+echo "########## REMOVE DEFAULT NOVA DB ##########"
 sleep 7
 rm /var/lib/nova/nova.sqlite
 
-echo "########## DONG BO DB CHO NOVA ##########"
+echo "########## SYNCING NOVA DB ##########"
 sleep 7 
 nova-manage db sync
 
 
 echo " "
-echo "########## FIX LOI CHO NOVA ##########"
+echo "########## FIX BUG CONFIGURING NOVA ##########"
 sleep 5
 dpkg-statoverride --update --add root root 0644 /boot/vmlinuz-$(uname -r)
 
@@ -121,7 +121,7 @@ EOF
 
 chmod +x /etc/kernel/postinst.d/statoverride
 
-# fix loi libvirtError: internal error: no supported architecture for os type 'hvm'
+# fix bug libvirtError: internal error: no supported architecture for os type 'hvm'
 echo 'kvm_intel' >> /etc/modules
 sleep 10
 echo "########## KHOI DONG LAI NOVA ##########"
@@ -134,7 +134,7 @@ service nova-novncproxy restart
 service nova-compute restart
 
 sleep 10
-echo "########## KHOI DONG NOVA LAN 2 ##########"
+echo "########## RESTARTING NOVA SERVICE ##########"
 service nova-conductor restart
 service nova-api restart
 service nova-cert restart
@@ -143,11 +143,11 @@ service nova-scheduler restart
 service nova-novncproxy restart
 service nova-compute restart
 
-echo "########## KIEM TRA LAI DICH VU NOVA ##########"
+echo "########## TESTING NOVA SETUP ##########"
 sleep 10
 nova-manage service list
 sleep 3
 nova-manage service list
 
-echo "########## KET THUC CAI DAT NOVA ##########"
+echo "########## FINISHED NOVA SETUP ##########"
 
