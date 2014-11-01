@@ -38,11 +38,11 @@ Thiết lập cấu hình cho Ubuntu Server 14.04 trong VMware Workstation hoặ
 
 
 ## 2. Thực hiện các script
+- Trước khi thực hiện các script, cần khai báo IP động cho các card mạng ở file `/etc/network/interfaces` như hình
+<img src=http://i.imgur.com/P4HFa5z.png width="60%" height="60%" border="1">
 
-Thực hiện tải gói gile và phân quyền cho các file sau khi tải từ github về:
-
-
-
+- Thực hiện tải gói gile và phân quyền cho các file sau khi tải từ github về:
+```sh
     apt-get update
 
     apt-get install git -y
@@ -52,7 +52,7 @@ Thực hiện tải gói gile và phân quyền cho các file sau khi tải từ
     cd openstack-juno-script-aio
     
     chmod +x *.sh
-
+```
 ### 2.0 Update hệ thống và cài đặt các gói bổ trợ
 
 Thiết lập tên, khai báo file hosts, cấu hình ip address cho các NICs:
