@@ -36,9 +36,11 @@ Configurations of Ubuntu Server 14.04 within VMware Workstation or physical mach
 <img src=http://i.imgur.com/pNg16qO.png width="60%" height="60%" border="1">
 
 ## 2. Script Implementation.
+- Edit network file  `/etc/network/interfaces` , the same picture: 
+<img src=http://i.imgur.com/P4HFa5z.png width="60%" height="60%" border="1">
 
-Clone installation scripts from github and provide permission for them:
-
+- Clone installation scripts from github and provide permission for them:
+```sh
     apt-get update
 
     apt-get install git -y
@@ -48,14 +50,14 @@ Clone installation scripts from github and provide permission for them:
     cd openstack-juno-script-aio
     
     chmod +x *.sh
+```
 
 ### 2.0 System updating and re-installing.
 
 Configuring name, file hosts and ip addresses of NICs:
-
-
+```sh
     bash 0-juno-aio-prepare.sh    
-
+```
 After finishing, system will restart.
 
 ### 2.1 Installing MARIADB and creating DB for elements.
